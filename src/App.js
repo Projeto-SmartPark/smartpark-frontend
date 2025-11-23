@@ -13,6 +13,8 @@ import Vagas from './pages/gestor/Vagas';
 import HomeCliente from './pages/cliente/HomeCliente';
 import EstacionamentosCliente from './pages/cliente/Estacionamentos';
 import VagasCliente from './pages/cliente/VagasCliente';
+import ReservarVaga from './pages/cliente/ReservarVaga';
+import Reservas from './pages/cliente/Reservas';
 
 function App() {
   return (
@@ -70,6 +72,22 @@ function App() {
           element={
             <PrivateRoute requiredPerfil="C">
               <VagasCliente />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cliente/reservar/:estacionamentoId/:vagaId"
+          element={
+            <PrivateRoute requiredPerfil="C">
+              <ReservarVaga />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cliente/reservas"
+          element={
+            <PrivateRoute requiredPerfil="C">
+              <Reservas />
             </PrivateRoute>
           }
         />

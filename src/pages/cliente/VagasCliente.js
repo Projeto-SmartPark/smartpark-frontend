@@ -159,7 +159,8 @@ export default function VagasCliente() {
               <Grid item xs={6} sm={4} md={3} lg={2} key={vaga.id_vaga}>
                 <Card
                   sx={{
-                    height: '100%',
+                    width: 140,
+                    height: 180,
                     backgroundColor: vaga.disponivel === 'S' ? '#ffffff' : '#f5f5f5',
                     border: vaga.disponivel === 'S' ? '2px solid #2A9D8F' : '2px solid #e0e0e0',
                     cursor: vaga.disponivel === 'S' ? 'pointer' : 'default',
@@ -173,12 +174,7 @@ export default function VagasCliente() {
                   }}
                   onClick={() => {
                     if (vaga.disponivel === 'S') {
-                      // Aqui você pode adicionar a lógica de reserva futuramente
-                      setAlert({
-                        show: true,
-                        message: 'Funcionalidade de reserva em desenvolvimento',
-                        severity: 'info',
-                      });
+                      navigate(`/cliente/reservar/${estacionamentoId}/${vaga.id_vaga}`);
                     }
                   }}
                 >
@@ -188,6 +184,7 @@ export default function VagasCliente() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      height: '100%',
                       py: 2,
                       px: 1,
                     }}
@@ -211,6 +208,7 @@ export default function VagasCliente() {
                         color: vaga.disponivel === 'S' ? '#223843' : '#6C757D',
                         textAlign: 'center',
                         fontSize: '0.875rem',
+                        mb: 1,
                       }}
                     >
                       {vaga.identificacao}
@@ -219,12 +217,15 @@ export default function VagasCliente() {
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        mt: 1,
+                        justifyContent: 'center',
+                        minHeight: 40,
                         color: vaga.disponivel === 'S' ? '#6C757D' : '#9e9e9e',
                       }}
                     >
                       <Box sx={{ mr: 0.5, display: 'flex', fontSize: 16 }}>{getIconeTipo(vaga.tipo)}</Box>
-                      <Typography variant="caption">{getNomeTipo(vaga.tipo)}</Typography>
+                      <Typography variant="caption" sx={{ whiteSpace: 'nowrap' }}>
+                        {getNomeTipo(vaga.tipo)}
+                      </Typography>
                     </Box>
                     <Typography
                       variant="caption"
@@ -234,7 +235,7 @@ export default function VagasCliente() {
                         color: vaga.disponivel === 'S' ? '#2A9D8F' : '#6C757D',
                       }}
                     >
-                      {vaga.disponivel === 'S' ? 'Livre' : 'Ocupada'}
+                      {vaga.disponivel === 'S' ? 'Disponível' : 'Indisponível'}
                     </Typography>
                   </CardContent>
                 </Card>
