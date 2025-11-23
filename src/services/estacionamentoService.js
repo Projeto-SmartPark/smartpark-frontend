@@ -48,6 +48,16 @@ const estacionamentoService = {
   },
 
   // Buscar estacionamento por ID
+  getEstacionamentoById: async (id) => {
+    try {
+      const response = await estacionamentoApi.get(`/estacionamentos/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { error: 'Erro ao buscar estacionamento', message: 'Erro desconhecido' };
+    }
+  },
+
+  // Buscar estacionamento por ID (alias)
   getEstacionamento: async (id) => {
     try {
       const response = await estacionamentoApi.get(`/estacionamentos/${id}`);
