@@ -27,10 +27,15 @@ export default function LoginPage() {
       // Converter tipoUsuario para o formato da API
       const perfil = tipoUsuario === 'cliente' ? 'C' : 'G';
 
-      await authService.login(email, password, perfil);
+      const response = await authService.login(email, password, perfil);
 
-      // Login bem-sucedido - token salvo no localStorage
-      console.log('Login realizado com sucesso!');
+      // Redirecionar baseado no perfil do usuário
+      const usuario = authService.getUsuario();
+      if (usuario?.perfil === 'G') {
+        navigate('/gestor/home');
+      } else {
+        navigate('/cliente/home');
+      }
     } catch (err) {
       setError('Credenciais incorretas!');
     } finally {
