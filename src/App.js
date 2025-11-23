@@ -11,6 +11,8 @@ import Vagas from './pages/gestor/Vagas';
 
 // Páginas do Cliente
 import HomeCliente from './pages/cliente/HomeCliente';
+import EstacionamentosCliente from './pages/cliente/Estacionamentos';
+import VagasCliente from './pages/cliente/VagasCliente';
 
 function App() {
   return (
@@ -52,6 +54,22 @@ function App() {
           element={
             <PrivateRoute requiredPerfil="C">
               <HomeCliente />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cliente/estacionamentos"
+          element={
+            <PrivateRoute requiredPerfil="C">
+              <EstacionamentosCliente />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cliente/vagas/:estacionamentoId"
+          element={
+            <PrivateRoute requiredPerfil="C">
+              <VagasCliente />
             </PrivateRoute>
           }
         />
