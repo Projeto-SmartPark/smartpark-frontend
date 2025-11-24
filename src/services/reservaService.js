@@ -84,7 +84,7 @@ const reservaService = {
   // Cancelar reserva
   cancelarReserva: async (id) => {
     try {
-      const response = await api.put(`/reservas/${id}/cancelar`);
+      const response = await api.put(`/reservas/${id}`, { status: 'cancelada' });
       return response.data;
     } catch (error) {
       throw error.response?.data || { error: 'Erro ao cancelar reserva', message: 'Erro desconhecido' };
@@ -94,7 +94,7 @@ const reservaService = {
   // Concluir reserva
   concluirReserva: async (id) => {
     try {
-      const response = await api.put(`/reservas/${id}/concluir`);
+      const response = await api.put(`/reservas/${id}`, { status: 'concluida' });
       return response.data;
     } catch (error) {
       throw error.response?.data || { error: 'Erro ao concluir reserva', message: 'Erro desconhecido' };
