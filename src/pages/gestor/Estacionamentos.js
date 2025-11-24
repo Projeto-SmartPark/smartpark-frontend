@@ -367,23 +367,38 @@ export default function ListarEstacionamentos() {
           </TableContainer>
         )}
 
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-          <DialogTitle sx={{ backgroundColor: '#223843', color: 'white' }}>
+        <Dialog 
+          open={openDialog} 
+          onClose={handleCloseDialog} 
+          maxWidth="lg" 
+          fullWidth
+          scroll="paper"
+        >
+          <DialogTitle sx={{ backgroundColor: '#223843', color: 'white', py: 2.5 }}>
             {editingId ? 'Editar Estacionamento' : 'Novo Estacionamento'}
           </DialogTitle>
-          <DialogContent sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', mb: 1 }}>
-                  Informações Gerais
-                </Typography>
-              </Grid>
+          <DialogContent dividers sx={{ p: 3 }}>
+            {/* Seção: Informações Gerais */}
+            <Box sx={{ 
+              backgroundColor: '#F8F9FA', 
+              p: 1.5, 
+              borderRadius: 1,
+              borderLeft: '4px solid #2A9D8F',
+              mb: 2
+            }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', fontSize: '1rem' }}>
+                📋 Informações Gerais
+              </Typography>
+            </Box>
+            
+            <Grid container spacing={2.5} sx={{ mb: 3 }}>
               <Grid item xs={12} md={6}>
                 <TextField
                   fullWidth
                   label="Nome *"
                   value={formData.nome}
                   onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                  placeholder="Ex: Estacionamento Centro"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -393,6 +408,8 @@ export default function ListarEstacionamentos() {
                   type="number"
                   value={formData.capacidade}
                   onChange={(e) => setFormData({ ...formData, capacidade: e.target.value })}
+                  placeholder="Ex: 50"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -415,28 +432,40 @@ export default function ListarEstacionamentos() {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
+            </Grid>
 
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', mt: 2, mb: 1 }}>
-                  Endereço
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={4}>
+            {/* Seção: Endereço */}
+            <Box sx={{ 
+              backgroundColor: '#F8F9FA', 
+              p: 1.5, 
+              borderRadius: 1,
+              borderLeft: '4px solid #2A9D8F',
+              mb: 2
+            }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', fontSize: '1rem' }}>
+                📍 Endereço
+              </Typography>
+            </Box>
+            
+            <Grid container spacing={2.5} sx={{ mb: 3 }}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   fullWidth
                   label="CEP *"
                   value={formData.cep}
                   onChange={(e) => setFormData({ ...formData, cep: formatCEP(e.target.value) })}
                   inputProps={{ maxLength: 9 }}
+                  placeholder="00000-000"
                 />
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={12} md={3}>
                 <TextField
                   fullWidth
                   label="Estado *"
                   value={formData.estado}
                   onChange={(e) => setFormData({ ...formData, estado: e.target.value.toUpperCase() })}
                   inputProps={{ maxLength: 2 }}
+                  placeholder="SP"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -445,6 +474,7 @@ export default function ListarEstacionamentos() {
                   label="Cidade *"
                   value={formData.cidade}
                   onChange={(e) => setFormData({ ...formData, cidade: e.target.value })}
+                  placeholder="Ex: São Paulo"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -453,6 +483,7 @@ export default function ListarEstacionamentos() {
                   label="Bairro *"
                   value={formData.bairro}
                   onChange={(e) => setFormData({ ...formData, bairro: e.target.value })}
+                  placeholder="Ex: Centro"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -461,6 +492,7 @@ export default function ListarEstacionamentos() {
                   label="Logradouro *"
                   value={formData.logradouro}
                   onChange={(e) => setFormData({ ...formData, logradouro: e.target.value })}
+                  placeholder="Ex: Rua das Flores"
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -469,6 +501,7 @@ export default function ListarEstacionamentos() {
                   label="Número *"
                   value={formData.numero}
                   onChange={(e) => setFormData({ ...formData, numero: e.target.value })}
+                  placeholder="Ex: 123"
                 />
               </Grid>
               <Grid item xs={12} md={9}>
@@ -477,32 +510,65 @@ export default function ListarEstacionamentos() {
                   label="Complemento"
                   value={formData.complemento}
                   onChange={(e) => setFormData({ ...formData, complemento: e.target.value })}
+                  placeholder="Ex: Sala 10 (opcional)"
                 />
               </Grid>
+            </Grid>
 
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', mt: 2, mb: 1 }}>
-                  Telefones * (mínimo 1, máximo 2)
-                </Typography>
-              </Grid>
+            {/* Seção: Telefones */}
+            <Box sx={{ 
+              backgroundColor: '#F8F9FA', 
+              p: 1.5, 
+              borderRadius: 1,
+              borderLeft: '4px solid #2A9D8F',
+              mb: 2
+            }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', fontSize: '1rem' }}>
+                📞 Telefones * (mínimo 1, máximo 2)
+              </Typography>
+            </Box>
 
-              {telefones.length > 0 && (
-                <Grid item xs={12}>
-                  <Stack spacing={1}>
-                    {telefones.map((tel, idx) => (
-                      <Box key={idx} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Typography>
-                          ({tel.ddd}) {tel.numero}
-                        </Typography>
-                        <IconButton size="small" onClick={() => handleRemoveTelefone(idx)} sx={{ color: '#6C757D' }}>
-                          <RemoveCircleIcon />
-                        </IconButton>
-                      </Box>
-                    ))}
-                  </Stack>
-                </Grid>
-              )}
+            {telefones.length > 0 && (
+              <Box sx={{ 
+                backgroundColor: '#E8F5F3', 
+                p: 2, 
+                borderRadius: 1,
+                border: '1px solid #2A9D8F',
+                mb: 2
+              }}>
+                <Stack spacing={1.5}>
+                  {telefones.map((tel, idx) => (
+                    <Box 
+                      key={idx} 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        backgroundColor: 'white',
+                        p: 1.5,
+                        borderRadius: 1
+                      }}
+                    >
+                      <Typography sx={{ fontWeight: 500 }}>
+                        ({tel.ddd}) {tel.numero}
+                      </Typography>
+                      <IconButton 
+                        size="small" 
+                        onClick={() => handleRemoveTelefone(idx)} 
+                        sx={{ 
+                          color: '#dc3545',
+                          '&:hover': { backgroundColor: 'rgba(220, 53, 69, 0.1)' }
+                        }}
+                      >
+                        <RemoveCircleIcon />
+                      </IconButton>
+                    </Box>
+                  ))}
+                </Stack>
+              </Box>
+            )}
 
+            <Grid container spacing={2.5}>
               <Grid item xs={12} md={3}>
                 <TextField
                   fullWidth
@@ -510,6 +576,7 @@ export default function ListarEstacionamentos() {
                   value={novoTelefone.ddd}
                   onChange={(e) => setNovoTelefone({ ...novoTelefone, ddd: e.target.value.replace(/\D/g, '') })}
                   inputProps={{ maxLength: 2 }}
+                  placeholder="11"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -521,6 +588,7 @@ export default function ListarEstacionamentos() {
                     setNovoTelefone({ ...novoTelefone, numero: formatTelefone(e.target.value) })
                   }
                   inputProps={{ maxLength: 10 }}
+                  placeholder="00000-0000"
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -533,24 +601,38 @@ export default function ListarEstacionamentos() {
                     height: '56px',
                     borderColor: '#2A9D8F',
                     color: '#2A9D8F',
+                    fontWeight: 600,
                     '&:hover': { borderColor: '#248277', backgroundColor: 'rgba(42, 157, 143, 0.1)' },
+                    '&:disabled': { borderColor: '#CCC', color: '#999' }
                   }}
                 >
-                  Adicionar
+                  ADICIONAR
                 </Button>
               </Grid>
             </Grid>
           </DialogContent>
-          <DialogActions sx={{ p: 2 }}>
-            <Button onClick={handleCloseDialog} sx={{ color: '#6C757D' }}>
+          <DialogActions sx={{ p: 3, backgroundColor: '#F8F9FA', borderTop: '1px solid #E0E0E0' }}>
+            <Button 
+              onClick={handleCloseDialog} 
+              sx={{ 
+                color: '#6C757D',
+                fontWeight: 600,
+                px: 3
+              }}
+            >
               Cancelar
             </Button>
             <Button
               onClick={handleSave}
               variant="contained"
-              sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
+              sx={{ 
+                backgroundColor: '#2A9D8F', 
+                fontWeight: 600,
+                px: 4,
+                '&:hover': { backgroundColor: '#248277' } 
+              }}
             >
-              Salvar
+              {editingId ? 'Atualizar' : 'Salvar'}
             </Button>
           </DialogActions>
         </Dialog>
