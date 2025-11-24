@@ -8,6 +8,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import HomeGestor from './pages/gestor/HomeGestor';
 import Estacionamentos from './pages/gestor/Estacionamentos';
 import Vagas from './pages/gestor/Vagas';
+import Tarifas from './pages/gestor/Tarifas';
 
 // Páginas do Cliente
 import HomeCliente from './pages/cliente/HomeCliente';
@@ -47,6 +48,14 @@ function App() {
           element={
             <PrivateRoute requiredPerfil="G">
               <Vagas />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/gestor/tarifas"
+          element={
+            <PrivateRoute requiredPerfil="G">
+              <Tarifas />
             </PrivateRoute>
           }
         />
