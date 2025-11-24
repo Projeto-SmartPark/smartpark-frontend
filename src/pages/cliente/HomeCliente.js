@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Header, Footer } from '../../components';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
 export default function HomeCliente() {
   const navigate = useNavigate();
@@ -18,56 +19,91 @@ export default function HomeCliente() {
         </Typography>
 
         <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12} md={5}>
-            <Card
-              sx={{
-                height: 250,
-                backgroundColor: 'white',
-                transition: 'all 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: 6,
-                },
-              }}
-            >
-              <CardActionArea
-                onClick={() => navigate('/cliente/estacionamentos')}
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ height: 250, width: '100%', maxWidth: 350, margin: '0 auto' }}>
+              <Card
+                sx={{
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: 'white',
+                  transition: 'all 0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: 6,
+                  },
+                }}
               >
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <LocalParkingIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 600, color: '#223843' }}>
-                    Listar Estacionamentos
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+                <CardActionArea
+                  onClick={() => navigate('/cliente/estacionamentos')}
+                  sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                >
+                  <CardContent sx={{ textAlign: 'center' }}>
+                    <LocalParkingIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
+                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#223843', lineHeight: 1.2 }}>
+                      Listar Estacionamentos
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Box>
           </Grid>
 
-          <Grid item xs={12} md={5}>
-            <Card
-              sx={{
-                height: 250,
-                backgroundColor: 'white',
-                transition: 'all 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: 6,
-                },
-              }}
-            >
-              <CardActionArea
-                onClick={() => navigate('/cliente/reservas')}
-                sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ height: 250, width: '100%', maxWidth: 350, margin: '0 auto' }}>
+              <Card
+                sx={{
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: 'white',
+                  transition: 'all 0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: 6,
+                  },
+                }}
               >
-                <CardContent sx={{ textAlign: 'center' }}>
-                  <BookmarksIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 600, color: '#223843' }}>
-                    Minhas Reservas
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+                <CardActionArea
+                  onClick={() => navigate('/cliente/reservas')}
+                  sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                >
+                  <CardContent sx={{ textAlign: 'center' }}>
+                    <BookmarksIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
+                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#223843', lineHeight: 1.2 }}>
+                      Minhas Reservas
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={4}>
+            <Box sx={{ height: 250, width: '100%', maxWidth: 350, margin: '0 auto' }}>
+              <Card
+                sx={{
+                  height: '100%',
+                  width: '100%',
+                  backgroundColor: 'white',
+                  transition: 'all 0.3s',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: 6,
+                  },
+                }}
+              >
+                <CardActionArea
+                  onClick={() => navigate('/cliente/veiculos')}
+                  sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                >
+                  <CardContent sx={{ textAlign: 'center' }}>
+                    <DirectionsCarIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
+                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#223843', lineHeight: 1.2 }}>
+                      Meus Veículos
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Box>
           </Grid>
         </Grid>
       </Container>
