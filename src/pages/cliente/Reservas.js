@@ -11,8 +11,10 @@ export default function Reservas() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogConcluirOpen, setDialogConcluirOpen] = useState(false);
   const [reservaSelecionada, setReservaSelecionada] = useState(null);
   const [cancelando, setCancelando] = useState(false);
+  const [concluindo, setConcluindo] = useState(false);
 
   useEffect(() => {
     carregarReservas();
@@ -35,8 +37,18 @@ export default function Reservas() {
     setDialogOpen(true);
   };
 
+  const handleAbrirDialogConcluir = (reservaId) => {
+    setReservaSelecionada(reservaId);
+    setDialogConcluirOpen(true);
+  };
+
   const handleFecharDialog = () => {
     setDialogOpen(false);
+    setReservaSelecionada(null);
+  };
+
+  const handleFecharDialogConcluir = () => {
+    setDialogConcluirOpen(false);
     setReservaSelecionada(null);
   };
 
@@ -53,6 +65,22 @@ export default function Reservas() {
       alert(error.message || 'Erro ao cancelar reserva');
     } finally {
       setCancelando(false);
+    }
+  };
+
+  const handleConcluirReserva = async () => {
+    if (!reservaSelecionada) return;
+
+    try {
+      setConcluindo(true);
+      await reservaService.concluirReserva(reservaSelecionada);
+      handleFecharDialogConcluir();
+      carregarReservas();
+    } catch (error) {
+      console.error('Erro ao concluir reserva:', error);
+      alert(error.message || 'Erro ao concluir reserva');
+    } finally {
+      setConcluindo(false);
     }
   };
 
@@ -98,7 +126,13 @@ export default function Reservas() {
           <Grid container spacing={3}>
             {reservas.map((reserva) => (
               <Grid item xs={12} md={6} key={reserva.id_reserva}>
-                <ReservaCard reserva={reserva} onCancelar={handleAbrirDialogCancelar} />
+                <Box sx={{ height: '100%' }}>
+                  <ReservaCard 
+                    reserva={reserva} 
+                    onCancelar={handleAbrirDialogCancelar}
+                    onConcluir={handleAbrirDialogConcluir}
+                  />
+                </Box>
               </Grid>
             ))}
           </Grid>
@@ -121,6 +155,26 @@ export default function Reservas() {
             disabled={cancelando}
           >
             {cancelando ? <CircularProgress size={24} /> : 'Sim, Cancelar'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={dialogConcluirOpen} onClose={handleFecharDialogConcluir}>
+        <DialogTitle>Concluir Reserva</DialogTitle>
+        <DialogContent>
+          <Typography>Tem certeza que deseja concluir esta reserva?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleFecharDialogConcluir} disabled={concluindo}>
+            Não
+          </Button>
+          <Button
+            onClick={handleConcluirReserva}
+            variant="contained"
+            sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
+            disabled={concluindo}
+          >
+            {concluindo ? <CircularProgress size={24} /> : 'Sim, Concluir'}
           </Button>
         </DialogActions>
       </Dialog>

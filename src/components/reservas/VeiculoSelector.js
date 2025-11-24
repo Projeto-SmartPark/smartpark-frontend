@@ -48,7 +48,7 @@ export default function VeiculoSelector({ veiculos, veiculoSelecionado, onChange
           variant="outlined"
           startIcon={<AddIcon />}
           onClick={onAdicionarVeiculo}
-          sx={{ mt: 1, color: '#2A9D8F', borderColor: '#2A9D8F' }}
+          sx={{ mt: 1, color: '#2A9D8F', borderColor: '#2A9D8F', '&:hover': { borderColor: '#248277' } }}
         >
           Cadastrar Veículo
         </Button>

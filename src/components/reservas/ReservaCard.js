@@ -3,8 +3,9 @@ import { Card, CardContent, Box, Typography, Button } from '@mui/material';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-export default function ReservaCard({ reserva, onCancelar }) {
+export default function ReservaCard({ reserva, onCancelar, onConcluir }) {
   const getStatusDisplay = (status) => {
     const statusMap = {
       ativa: { label: 'ATIVA', color: '#2A9D8F' },
@@ -28,15 +29,18 @@ export default function ReservaCard({ reserva, onCancelar }) {
       sx={{
         border: reserva.status === 'ativa' ? '2px solid #2A9D8F' : '1px solid #e0e0e0',
         transition: 'transform 0.2s',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         '&:hover': {
           transform: 'translateY(-4px)',
           boxShadow: 3,
         },
       }}
     >
-      <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-          <Typography variant="h6" sx={{ fontWeight: 600, color: '#223843' }}>
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2, gap: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, color: '#223843', flex: 1 }}>
             {reserva.vaga?.estacionamento?.nome || 'Estacionamento'}
           </Typography>
           <Box
@@ -48,6 +52,7 @@ export default function ReservaCard({ reserva, onCancelar }) {
               color: 'white',
               fontSize: '0.85rem',
               fontWeight: 600,
+              whiteSpace: 'nowrap',
             }}
           >
             {statusInfo.label}
@@ -76,24 +81,44 @@ export default function ReservaCard({ reserva, onCancelar }) {
           </Typography>
         </Box>
 
-        {reserva.status === 'ativa' && onCancelar && (
-          <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0' }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              sx={{
-                color: '#D32F2F',
-                borderColor: '#D32F2F',
-                '&:hover': {
-                  backgroundColor: '#D32F2F',
-                  color: 'white',
+        <Box sx={{ flexGrow: 1 }} />
+
+        {reserva.status === 'ativa' && (onCancelar || onConcluir) && (
+          <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #e0e0e0', display: 'flex', gap: 1 }}>
+            {onCancelar && (
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{
+                  color: '#D32F2F',
                   borderColor: '#D32F2F',
-                },
-              }}
-              onClick={() => onCancelar(reserva.id_reserva)}
-            >
-              Cancelar Reserva
-            </Button>
+                  '&:hover': {
+                    backgroundColor: '#D32F2F',
+                    color: 'white',
+                    borderColor: '#D32F2F',
+                  },
+                }}
+                onClick={() => onCancelar(reserva.id_reserva)}
+              >
+                Cancelar
+              </Button>
+            )}
+            {onConcluir && (
+              <Button
+                fullWidth
+                variant="contained"
+                startIcon={<CheckCircleIcon />}
+                sx={{
+                  backgroundColor: '#2A9D8F',
+                  '&:hover': {
+                    backgroundColor: '#248277',
+                  },
+                }}
+                onClick={() => onConcluir(reserva.id_reserva)}
+              >
+                Concluir
+              </Button>
+            )}
           </Box>
         )}
       </CardContent>

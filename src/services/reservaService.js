@@ -90,6 +90,16 @@ const reservaService = {
       throw error.response?.data || { error: 'Erro ao cancelar reserva', message: 'Erro desconhecido' };
     }
   },
+
+  // Concluir reserva
+  concluirReserva: async (id) => {
+    try {
+      const response = await api.put(`/reservas/${id}/concluir`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { error: 'Erro ao concluir reserva', message: 'Erro desconhecido' };
+    }
+  },
 };
 
 export default reservaService;

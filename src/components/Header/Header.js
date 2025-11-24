@@ -1,5 +1,6 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
 
@@ -8,6 +9,7 @@ export default function Header({ showLogout = false }) {
 
   const handleLogout = () => {
     authService.logout();
+    navigate('/login');
   };
 
   return (
@@ -17,16 +19,17 @@ export default function Header({ showLogout = false }) {
           SmartPark
         </Typography>
         {showLogout && (
-          <Button
+          <IconButton
             color="inherit"
             onClick={handleLogout}
             sx={{
               backgroundColor: '#2A9D8F',
               '&:hover': { backgroundColor: '#248277' },
             }}
+            title="Sair"
           >
-            Deslogar
-          </Button>
+            <LogoutIcon />
+          </IconButton>
         )}
       </Toolbar>
     </AppBar>

@@ -15,6 +15,7 @@ import EstacionamentosCliente from './pages/cliente/Estacionamentos';
 import VagasCliente from './pages/cliente/VagasCliente';
 import ReservarVaga from './pages/cliente/ReservarVaga';
 import Reservas from './pages/cliente/Reservas';
+import VeiculosCliente from './pages/cliente/Veiculos';
 
 function App() {
   return (
@@ -88,6 +89,14 @@ function App() {
           element={
             <PrivateRoute requiredPerfil="C">
               <Reservas />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cliente/veiculos"
+          element={
+            <PrivateRoute requiredPerfil="C">
+              <VeiculosCliente />
             </PrivateRoute>
           }
         />

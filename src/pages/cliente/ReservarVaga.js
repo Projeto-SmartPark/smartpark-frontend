@@ -313,10 +313,7 @@ export default function ReservarVaga() {
               veiculos={veiculos}
               veiculoSelecionado={veiculoSelecionado}
               onChange={setVeiculoSelecionado}
-              onAdicionarVeiculo={() => {
-                // Futuramente redirecionar para cadastro de veículos
-                alert('Funcionalidade de cadastro de veículos em desenvolvimento');
-              }}
+              onAdicionarVeiculo={() => navigate('/cliente/veiculos')}
               loading={loading}
             />
 
