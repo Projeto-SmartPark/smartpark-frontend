@@ -143,6 +143,8 @@ export default function GerenciarVagas() {
         return;
       }
 
+      setSalvando(true);
+
       const payload = {
         identificacao: formData.identificacao,
         tipo: formData.tipo,

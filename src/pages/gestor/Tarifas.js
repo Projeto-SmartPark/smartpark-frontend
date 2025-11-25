@@ -22,6 +22,9 @@ import {
   MenuItem,
   FormControlLabel,
   Switch,
+  FormControl,
+  InputLabel,
+  Select,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,7 +38,9 @@ import estacionamentoService from '../../services/estacionamentoService';
 export default function TarifasGestor() {
   const navigate = useNavigate();
   const [tarifas, setTarifas] = useState([]);
+  const [tarifasFiltradas, setTarifasFiltradas] = useState([]);
   const [estacionamentos, setEstacionamentos] = useState([]);
+  const [estacionamentoSelecionado, setEstacionamentoSelecionado] = useState('');
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -62,6 +67,22 @@ export default function TarifasGestor() {
   useEffect(() => {
     carregarDados();
   }, []);
+
+  useEffect(() => {
+    filtrarTarifas();
+  }, [tarifas, estacionamentoSelecionado]);
+
+  const filtrarTarifas = () => {
+    if (!estacionamentoSelecionado) {
+      setTarifasFiltradas(tarifas);
+    } else {
+      setTarifasFiltradas(
+        tarifas.filter(tarifa => 
+          tarifa.estacionamento_id === parseInt(estacionamentoSelecionado)
+        )
+      );
+    }
+  };
 
   const carregarDados = async () => {
     try {
@@ -269,17 +290,36 @@ export default function TarifasGestor() {
             <Typography variant="h4" sx={{ fontWeight: 600, color: '#223843' }}>
               Gerenciar Tarifas
             </Typography>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => handleOpen(null)}
-              sx={{
-                backgroundColor: '#2A9D8F',
-                '&:hover': { backgroundColor: '#248277' },
-              }}
-            >
-              Nova Tarifa
-            </Button>
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+              <FormControl sx={{ minWidth: 250 }}>
+                <InputLabel>Filtrar por Estacionamento</InputLabel>
+                <Select
+                  value={estacionamentoSelecionado}
+                  onChange={(e) => setEstacionamentoSelecionado(e.target.value)}
+                  label="Filtrar por Estacionamento"
+                >
+                  <MenuItem value="">
+                    <em>Todos os estacionamentos</em>
+                  </MenuItem>
+                  {estacionamentos.map((est) => (
+                    <MenuItem key={est.id_estacionamento} value={est.id_estacionamento}>
+                      {est.nome}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => handleOpen(null)}
+                sx={{
+                  backgroundColor: '#2A9D8F',
+                  '&:hover': { backgroundColor: '#248277' },
+                }}
+              >
+                Nova Tarifa
+              </Button>
+            </Box>
           </Box>
 
           {alert.show && (
@@ -296,10 +336,10 @@ export default function TarifasGestor() {
             <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
               <CircularProgress sx={{ color: '#2A9D8F' }} />
             </Box>
-          ) : tarifas.length === 0 ? (
+          ) : tarifasFiltradas.length === 0 ? (
             <Box sx={{ textAlign: 'center', py: 8, backgroundColor: 'white', borderRadius: 2 }}>
               <Typography variant="body1" color="text.secondary">
-                Nenhuma tarifa cadastrada
+                {estacionamentoSelecionado ? 'Nenhuma tarifa encontrada para este estacionamento' : 'Nenhuma tarifa cadastrada'}
               </Typography>
             </Box>
           ) : (
@@ -316,7 +356,7 @@ export default function TarifasGestor() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {tarifas.map((tarifa) => (
+                  {tarifasFiltradas.map((tarifa) => (
                     <TableRow key={tarifa.id_tarifa} hover>
                       <TableCell align="center">{tarifa.nome}</TableCell>
                       <TableCell align="center">{formatarValor(tarifa.valor)}</TableCell>
