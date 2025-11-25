@@ -110,7 +110,6 @@ const authService = {
       console.error('Erro ao fazer logout:', error);
     } finally {
       removeToken();
-      window.location.href = '/login';
     }
   },
 

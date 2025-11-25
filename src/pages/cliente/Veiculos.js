@@ -223,8 +223,8 @@ export default function VeiculosCliente() {
                 <Table>
                   <TableHead>
                     <TableRow sx={{ backgroundColor: '#F5F5F5' }}>
-                      <TableCell sx={{ fontWeight: 600, color: '#223843' }}>Placa</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 600, color: '#223843' }}>
+                      <TableCell align="center" sx={{ fontWeight: 600, color: '#223843' }}>Placa</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 600, color: '#223843' }}>
                         Ações
                       </TableCell>
                     </TableRow>
@@ -232,8 +232,8 @@ export default function VeiculosCliente() {
                   <TableBody>
                     {veiculos.map((veiculo) => (
                       <TableRow key={veiculo.id_veiculo} hover>
-                        <TableCell sx={{ fontSize: '1.1rem', fontWeight: 500 }}>{veiculo.placa}</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="center" sx={{ fontSize: '1.1rem', fontWeight: 500 }}>{veiculo.placa}</TableCell>
+                        <TableCell align="center">
                           <IconButton onClick={() => handleOpen(veiculo)} sx={{ color: '#2A9D8F', mr: 1 }}>
                             <EditIcon />
                           </IconButton>

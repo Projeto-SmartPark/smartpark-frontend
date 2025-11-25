@@ -9,6 +9,7 @@ import HomeGestor from './pages/gestor/HomeGestor';
 import Estacionamentos from './pages/gestor/Estacionamentos';
 import Vagas from './pages/gestor/Vagas';
 import Tarifas from './pages/gestor/Tarifas';
+import Acessos from './pages/gestor/Acessos';
 
 // Páginas do Cliente
 import HomeCliente from './pages/cliente/HomeCliente';
@@ -57,6 +58,14 @@ function App() {
           element={
             <PrivateRoute requiredPerfil="G">
               <Tarifas />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/gestor/acessos"
+          element={
+            <PrivateRoute requiredPerfil="G">
+              <Acessos />
             </PrivateRoute>
           }
         />

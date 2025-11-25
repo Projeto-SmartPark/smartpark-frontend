@@ -36,6 +36,16 @@ api.interceptors.response.use(
 );
 
 const reservaService = {
+  // Listar todas as reservas (gestor)
+  getReservas: async () => {
+    try {
+      const response = await api.get('/reservas');
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { error: 'Erro ao buscar reservas', message: 'Erro desconhecido' };
+    }
+  },
+
   // Listar reservas do cliente autenticado
   getReservasPorCliente: async () => {
     try {

@@ -40,6 +40,8 @@ export default function ListarEstacionamentos() {
   const [editingId, setEditingId] = useState(null);
   const [estacionamentos, setEstacionamentos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [salvando, setSalvando] = useState(false);
+  const [excluindo, setExcluindo] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
 
   const [formData, setFormData] = useState({
@@ -58,6 +60,7 @@ export default function ListarEstacionamentos() {
 
   const [telefones, setTelefones] = useState([]);
   const [novoTelefone, setNovoTelefone] = useState({ ddd: '', numero: '' });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     carregarEstacionamentos();
@@ -115,6 +118,7 @@ export default function ListarEstacionamentos() {
       setTelefones([]);
     }
     setNovoTelefone({ ddd: '', numero: '' });
+    setErrors({});
     setOpenDialog(true);
   };
 
@@ -144,8 +148,27 @@ export default function ListarEstacionamentos() {
 
   const handleSave = async () => {
     try {
-      // Validações básicas
-      if (!formData.nome || !formData.capacidade || !formData.hora_abertura || !formData.hora_fechamento) {
+      // Validar campos obrigatórios
+      const newErrors = {};
+      
+      if (!formData.nome) newErrors.nome = true;
+      if (!formData.capacidade) newErrors.capacidade = true;
+      if (!formData.hora_abertura) newErrors.hora_abertura = true;
+      if (!formData.hora_fechamento) newErrors.hora_fechamento = true;
+      if (!formData.cep) newErrors.cep = true;
+      if (!formData.estado) newErrors.estado = true;
+      if (!formData.cidade) newErrors.cidade = true;
+      if (!formData.bairro) newErrors.bairro = true;
+      if (!formData.numero) newErrors.numero = true;
+      if (!formData.logradouro) newErrors.logradouro = true;
+
+      if (telefones.length === 0) {
+        newErrors.telefones = true;
+      }
+
+      // Se houver erros, exibir e retornar
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
         setAlert({
           show: true,
           message: 'Preencha todos os campos obrigatórios',
@@ -154,14 +177,10 @@ export default function ListarEstacionamentos() {
         return;
       }
 
-      if (telefones.length === 0) {
-        setAlert({
-          show: true,
-          message: 'Adicione pelo menos um telefone',
-          severity: 'error',
-        });
-        return;
-      }
+      // Limpar erros
+      setErrors({});
+
+      setSalvando(true);
 
       // Obter gestor_id do usuário logado
       const usuario = authService.getUsuario();
@@ -223,6 +242,8 @@ export default function ListarEstacionamentos() {
         message: error.message || 'Erro ao salvar estacionamento',
         severity: 'error',
       });
+    } finally {
+      setSalvando(false);
     }
   };
 
@@ -238,6 +259,7 @@ export default function ListarEstacionamentos() {
 
   const handleConfirmDelete = async () => {
     try {
+      setExcluindo(true);
       await estacionamentoService.deleteEstacionamento(deletingId);
       setAlert({
         show: true,
@@ -253,6 +275,8 @@ export default function ListarEstacionamentos() {
         message: error.message || 'Erro ao excluir estacionamento',
         severity: 'error',
       });
+    } finally {
+      setExcluindo(false);
       handleCloseDeleteDialog();
     }
   };
@@ -312,12 +336,12 @@ export default function ListarEstacionamentos() {
             <Table>
               <TableHead sx={{ backgroundColor: '#223843' }}>
                 <TableRow>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Nome</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Cidade</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Capacidade</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Horário</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Telefones</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Ações</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Nome</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Cidade</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Capacidade</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Horário</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Telefones</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -330,13 +354,13 @@ export default function ListarEstacionamentos() {
                 ) : (
                   estacionamentos.map((est) => (
                     <TableRow key={est.id_estacionamento} hover>
-                      <TableCell>{est.nome}</TableCell>
-                      <TableCell>{est.endereco?.cidade || '-'}</TableCell>
-                      <TableCell>{est.capacidade}</TableCell>
-                      <TableCell>
+                      <TableCell align="center">{est.nome}</TableCell>
+                      <TableCell align="center">{est.endereco?.cidade || '-'}</TableCell>
+                      <TableCell align="center">{est.capacidade}</TableCell>
+                      <TableCell align="center">
                         {est.hora_abertura?.slice(0, 5)} - {est.hora_fechamento?.slice(0, 5)}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         {est.telefones?.map((tel, idx) => (
                           <span key={idx}>
                             ({tel.ddd}) {tel.numero}
@@ -344,7 +368,7 @@ export default function ListarEstacionamentos() {
                           </span>
                         ))}
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <IconButton onClick={() => handleOpenDialog(est)} sx={{ color: '#2A9D8F' }}>
                           <EditIcon />
                         </IconButton>
@@ -399,6 +423,8 @@ export default function ListarEstacionamentos() {
                   value={formData.nome}
                   onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                   placeholder="Ex: Estacionamento Centro"
+                  error={errors.nome}
+                  helperText={errors.nome && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -410,6 +436,8 @@ export default function ListarEstacionamentos() {
                   onChange={(e) => setFormData({ ...formData, capacidade: e.target.value })}
                   placeholder="Ex: 50"
                   inputProps={{ min: 1 }}
+                  error={errors.capacidade}
+                  helperText={errors.capacidade && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -420,6 +448,8 @@ export default function ListarEstacionamentos() {
                   value={formData.hora_abertura}
                   onChange={(e) => setFormData({ ...formData, hora_abertura: e.target.value + ':00' })}
                   InputLabelProps={{ shrink: true }}
+                  error={errors.hora_abertura}
+                  helperText={errors.hora_abertura && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -430,6 +460,8 @@ export default function ListarEstacionamentos() {
                   value={formData.hora_fechamento}
                   onChange={(e) => setFormData({ ...formData, hora_fechamento: e.target.value + ':00' })}
                   InputLabelProps={{ shrink: true }}
+                  error={errors.hora_fechamento}
+                  helperText={errors.hora_fechamento && "Campo obrigatório"}
                 />
               </Grid>
             </Grid>
@@ -456,6 +488,8 @@ export default function ListarEstacionamentos() {
                   onChange={(e) => setFormData({ ...formData, cep: formatCEP(e.target.value) })}
                   inputProps={{ maxLength: 9 }}
                   placeholder="00000-000"
+                  error={errors.cep}
+                  helperText={errors.cep && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -466,6 +500,8 @@ export default function ListarEstacionamentos() {
                   onChange={(e) => setFormData({ ...formData, estado: e.target.value.toUpperCase() })}
                   inputProps={{ maxLength: 2 }}
                   placeholder="SP"
+                  error={errors.estado}
+                  helperText={errors.estado && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -475,6 +511,8 @@ export default function ListarEstacionamentos() {
                   value={formData.cidade}
                   onChange={(e) => setFormData({ ...formData, cidade: e.target.value })}
                   placeholder="Ex: São Paulo"
+                  error={errors.cidade}
+                  helperText={errors.cidade && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -484,6 +522,8 @@ export default function ListarEstacionamentos() {
                   value={formData.bairro}
                   onChange={(e) => setFormData({ ...formData, bairro: e.target.value })}
                   placeholder="Ex: Centro"
+                  error={errors.bairro}
+                  helperText={errors.bairro && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -493,6 +533,8 @@ export default function ListarEstacionamentos() {
                   value={formData.logradouro}
                   onChange={(e) => setFormData({ ...formData, logradouro: e.target.value })}
                   placeholder="Ex: Rua das Flores"
+                  error={errors.logradouro}
+                  helperText={errors.logradouro && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -502,6 +544,8 @@ export default function ListarEstacionamentos() {
                   value={formData.numero}
                   onChange={(e) => setFormData({ ...formData, numero: e.target.value })}
                   placeholder="Ex: 123"
+                  error={errors.numero}
+                  helperText={errors.numero && "Campo obrigatório"}
                 />
               </Grid>
               <Grid item xs={12} md={9}>
@@ -521,11 +565,17 @@ export default function ListarEstacionamentos() {
               p: 1.5, 
               borderRadius: 1,
               borderLeft: '4px solid #2A9D8F',
-              mb: 2
+              mb: 2,
+              ...(errors.telefones && { borderColor: '#d32f2f', backgroundColor: '#ffebee' })
             }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#223843', fontSize: '1rem' }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600, color: errors.telefones ? '#d32f2f' : '#223843', fontSize: '1rem' }}>
                 📞 Telefones * (mínimo 1, máximo 2)
               </Typography>
+              {errors.telefones && (
+                <Typography variant="caption" sx={{ color: '#d32f2f', display: 'block', mt: 0.5 }}>
+                  Adicione pelo menos um telefone
+                </Typography>
+              )}
             </Box>
 
             {telefones.length > 0 && (
@@ -613,7 +663,8 @@ export default function ListarEstacionamentos() {
           </DialogContent>
           <DialogActions sx={{ p: 3, backgroundColor: '#F8F9FA', borderTop: '1px solid #E0E0E0' }}>
             <Button 
-              onClick={handleCloseDialog} 
+              onClick={handleCloseDialog}
+              disabled={salvando}
               sx={{ 
                 color: '#6C757D',
                 fontWeight: 600,
@@ -625,14 +676,17 @@ export default function ListarEstacionamentos() {
             <Button
               onClick={handleSave}
               variant="contained"
+              disabled={salvando}
+              startIcon={salvando && <CircularProgress size={16} sx={{ color: 'white' }} />}
               sx={{ 
                 backgroundColor: '#2A9D8F', 
                 fontWeight: 600,
                 px: 4,
-                '&:hover': { backgroundColor: '#248277' } 
+                '&:hover': { backgroundColor: '#248277' },
+                '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
               }}
             >
-              {editingId ? 'Atualizar' : 'Salvar'}
+              {salvando ? 'Salvando...' : (editingId ? 'Atualizar' : 'Salvar')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -644,15 +698,21 @@ export default function ListarEstacionamentos() {
             <Typography>Você tem certeza que deseja excluir o estacionamento?</Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDeleteDialog} sx={{ color: '#6C757D' }}>
+            <Button onClick={handleCloseDeleteDialog} disabled={excluindo} sx={{ color: '#6C757D' }}>
               Cancelar
             </Button>
             <Button
               onClick={handleConfirmDelete}
               variant="contained"
-              sx={{ backgroundColor: '#dc3545', '&:hover': { backgroundColor: '#c82333' } }}
+              disabled={excluindo}
+              startIcon={excluindo && <CircularProgress size={16} sx={{ color: 'white' }} />}
+              sx={{ 
+                backgroundColor: '#dc3545', 
+                '&:hover': { backgroundColor: '#c82333' },
+                '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
+              }}
             >
-              Excluir
+              {excluindo ? 'Excluindo...' : 'Excluir'}
             </Button>
           </DialogActions>
         </Dialog>

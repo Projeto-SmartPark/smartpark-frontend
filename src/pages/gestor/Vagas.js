@@ -45,6 +45,8 @@ export default function GerenciarVagas() {
   const [vagas, setVagas] = useState([]);
   const [estacionamento, setEstacionamento] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [salvando, setSalvando] = useState(false);
+  const [excluindo, setExcluindo] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
 
   const [formData, setFormData] = useState({
@@ -173,11 +175,14 @@ export default function GerenciarVagas() {
         message: error.message || 'Erro ao salvar vaga',
         severity: 'error',
       });
+    } finally {
+      setSalvando(false);
     }
   };
 
   const handleConfirmDelete = async () => {
     try {
+      setExcluindo(true);
       await vagaService.deleteVaga(deletingId);
       setAlert({
         show: true,
@@ -194,6 +199,8 @@ export default function GerenciarVagas() {
         severity: 'error',
       });
       handleCloseDeleteDialog();
+    } finally {
+      setExcluindo(false);
     }
   };
 
@@ -240,10 +247,10 @@ export default function GerenciarVagas() {
             <Table>
               <TableHead sx={{ backgroundColor: '#223843' }}>
                 <TableRow>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Identificação</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Tipo</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Status</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }}>Ações</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Identificação</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Tipo</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Status</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -256,8 +263,8 @@ export default function GerenciarVagas() {
                 ) : (
                   vagas.map((vaga) => (
                     <TableRow key={vaga.id_vaga} hover>
-                      <TableCell>{vaga.identificacao}</TableCell>
-                      <TableCell>
+                      <TableCell align="center">{vaga.identificacao}</TableCell>
+                      <TableCell align="center">
                         <Box
                           sx={{
                             display: 'inline-block',
@@ -272,7 +279,7 @@ export default function GerenciarVagas() {
                           {tiposVaga.find((t) => t.value === vaga.tipo)?.label || vaga.tipo}
                         </Box>
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <Box
                           sx={{
                             display: 'inline-block',
@@ -287,7 +294,7 @@ export default function GerenciarVagas() {
                           {vaga.disponivel === 'S' ? 'Livre' : 'Ocupada'}
                         </Box>
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <IconButton onClick={() => handleOpenDialog(vaga)} sx={{ color: '#2A9D8F' }}>
                           <EditIcon />
                         </IconButton>
@@ -353,15 +360,21 @@ export default function GerenciarVagas() {
             />
           </DialogContent>
           <DialogActions sx={{ p: 2 }}>
-            <Button onClick={handleCloseDialog} sx={{ color: '#6C757D' }}>
+            <Button onClick={handleCloseDialog} disabled={salvando} sx={{ color: '#6C757D' }}>
               Cancelar
             </Button>
             <Button
               onClick={handleSave}
               variant="contained"
-              sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
+              disabled={salvando}
+              startIcon={salvando && <CircularProgress size={16} sx={{ color: 'white' }} />}
+              sx={{ 
+                backgroundColor: '#2A9D8F', 
+                '&:hover': { backgroundColor: '#248277' },
+                '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
+              }}
             >
-              Salvar
+              {salvando ? 'Salvando...' : (editingId ? 'Atualizar' : 'Salvar')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -373,15 +386,21 @@ export default function GerenciarVagas() {
             <Typography>Você tem certeza que deseja excluir esta vaga?</Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDeleteDialog} sx={{ color: '#6C757D' }}>
+            <Button onClick={handleCloseDeleteDialog} disabled={excluindo} sx={{ color: '#6C757D' }}>
               Cancelar
             </Button>
             <Button
               onClick={handleConfirmDelete}
               variant="contained"
-              sx={{ backgroundColor: '#dc3545', '&:hover': { backgroundColor: '#c82333' } }}
+              disabled={excluindo}
+              startIcon={excluindo && <CircularProgress size={16} sx={{ color: 'white' }} />}
+              sx={{ 
+                backgroundColor: '#dc3545', 
+                '&:hover': { backgroundColor: '#c82333' },
+                '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
+              }}
             >
-              Excluir
+              {excluindo ? 'Excluindo...' : 'Excluir'}
             </Button>
           </DialogActions>
         </Dialog>

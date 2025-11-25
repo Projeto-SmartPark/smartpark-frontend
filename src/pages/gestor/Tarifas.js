@@ -213,6 +213,7 @@ export default function TarifasGestor() {
     if (!tarifaExcluir) return;
 
     try {
+      setSalvando(true);
       await tarifaService.deleteTarifa(tarifaExcluir.id_tarifa);
       setAlert({
         show: true,
@@ -228,6 +229,8 @@ export default function TarifasGestor() {
         message: error.message || 'Erro ao excluir tarifa',
         severity: 'error',
       });
+    } finally {
+      setSalvando(false);
     }
   };
 
@@ -249,28 +252,31 @@ export default function TarifasGestor() {
   };
 
   return (
-    <>
-      <Header />
-      <Box
-        sx={{
-          minHeight: '100vh',
-          bgcolor: 'background.default',
-          py: 4,
-        }}
-      >
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
+      <Header showLogout />
+
+      <Box component="main" sx={{ flexGrow: 1, py: 4 }}>
         <Box sx={{ maxWidth: 1200, mx: 'auto', px: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-            <IconButton onClick={() => navigate('/gestor/home')} sx={{ mr: 2 }}>
-              <ArrowBackIcon />
-            </IconButton>
-            <Typography variant="h4" component="h1" sx={{ flexGrow: 1 }}>
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/gestor/home')}
+            sx={{ mb: 3, color: '#223843' }}
+          >
+            Voltar
+          </Button>
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Typography variant="h4" sx={{ fontWeight: 600, color: '#223843' }}>
               Gerenciar Tarifas
             </Typography>
             <Button
               variant="contained"
-              color="primary"
               startIcon={<AddIcon />}
               onClick={() => handleOpen(null)}
+              sx={{
+                backgroundColor: '#2A9D8F',
+                '&:hover': { backgroundColor: '#248277' },
+              }}
             >
               Nova Tarifa
             </Button>
@@ -286,74 +292,74 @@ export default function TarifasGestor() {
             </Alert>
           )}
 
-          <Card>
-            <CardContent>
-              {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-                  <CircularProgress />
-                </Box>
-              ) : tarifas.length === 0 ? (
-                <Typography variant="body1" color="text.secondary" align="center" sx={{ py: 4 }}>
-                  Nenhuma tarifa cadastrada
-                </Typography>
-              ) : (
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Nome</TableCell>
-                        <TableCell>Valor</TableCell>
-                        <TableCell>Tipo</TableCell>
-                        <TableCell>Estacionamento</TableCell>
-                        <TableCell align="center">Ativa</TableCell>
-                        <TableCell align="center">Ações</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {tarifas.map((tarifa) => (
-                        <TableRow key={tarifa.id_tarifa}>
-                          <TableCell>{tarifa.nome}</TableCell>
-                          <TableCell>{formatarValor(tarifa.valor)}</TableCell>
-                          <TableCell>{obterLabelTipo(tarifa.tipo)}</TableCell>
-                          <TableCell>{obterNomeEstacionamento(tarifa.estacionamento_id)}</TableCell>
-                          <TableCell align="center">
-                            {tarifa.ativa === 'S' ? (
-                              <Typography color="success.main">Sim</Typography>
-                            ) : (
-                              <Typography color="error.main">Não</Typography>
-                            )}
-                          </TableCell>
-                          <TableCell align="center">
-                            <IconButton
-                              color="primary"
-                              onClick={() => handleOpen(tarifa)}
-                              size="small"
-                            >
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              color="error"
-                              onClick={() => handleAbrirDialogExcluir(tarifa)}
-                              size="small"
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-            </CardContent>
-          </Card>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+              <CircularProgress sx={{ color: '#2A9D8F' }} />
+            </Box>
+          ) : tarifas.length === 0 ? (
+            <Box sx={{ textAlign: 'center', py: 8, backgroundColor: 'white', borderRadius: 2 }}>
+              <Typography variant="body1" color="text.secondary">
+                Nenhuma tarifa cadastrada
+              </Typography>
+            </Box>
+          ) : (
+            <TableContainer component={Box} sx={{ backgroundColor: 'white', borderRadius: 2 }}>
+              <Table>
+                <TableHead sx={{ backgroundColor: '#223843' }}>
+                  <TableRow>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Nome</TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Valor</TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Tipo</TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Estacionamento</TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Ativa</TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Ações</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tarifas.map((tarifa) => (
+                    <TableRow key={tarifa.id_tarifa} hover>
+                      <TableCell align="center">{tarifa.nome}</TableCell>
+                      <TableCell align="center">{formatarValor(tarifa.valor)}</TableCell>
+                      <TableCell align="center">{obterLabelTipo(tarifa.tipo)}</TableCell>
+                      <TableCell align="center">{obterNomeEstacionamento(tarifa.estacionamento_id)}</TableCell>
+                      <TableCell align="center">
+                        {tarifa.ativa === 'S' ? (
+                          <Typography color="success.main" sx={{ fontWeight: 600 }}>Sim</Typography>
+                        ) : (
+                          <Typography color="error.main" sx={{ fontWeight: 600 }}>Não</Typography>
+                        )}
+                      </TableCell>
+                      <TableCell align="center">
+                        <IconButton
+                          onClick={() => handleOpen(tarifa)}
+                          size="small"
+                          sx={{ color: '#2A9D8F' }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleAbrirDialogExcluir(tarifa)}
+                          size="small"
+                          sx={{ color: '#DC3545' }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </Box>
       </Box>
       <Footer />
 
       {/* Dialog Adicionar/Editar */}
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle>{editingId ? 'Editar Tarifa' : 'Nova Tarifa'}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: '#223843', color: 'white' }}>
+          {editingId ? 'Editar Tarifa' : 'Nova Tarifa'}
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
             <TextField
@@ -420,32 +426,56 @@ export default function TarifasGestor() {
             />
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} disabled={salvando}>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={handleClose} disabled={salvando} sx={{ color: '#6C757D' }}>
             Cancelar
           </Button>
-          <Button onClick={handleSave} variant="contained" disabled={salvando}>
-            {salvando ? <CircularProgress size={24} /> : 'Salvar'}
+          <Button
+            onClick={handleSave}
+            variant="contained"
+            disabled={salvando}
+            startIcon={salvando && <CircularProgress size={16} sx={{ color: 'white' }} />}
+            sx={{
+              backgroundColor: '#2A9D8F',
+              '&:hover': { backgroundColor: '#248277' },
+              '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
+            }}
+          >
+            {salvando ? 'Salvando...' : (editingId ? 'Atualizar' : 'Cadastrar')}
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Dialog Confirmar Exclusão */}
       <Dialog open={dialogExcluir} onClose={handleFecharDialogExcluir}>
-        <DialogTitle>Confirmar Exclusão</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: '#DC3545', color: 'white' }}>
+          Confirmar Exclusão
+        </DialogTitle>
         <DialogContent>
           <Typography>
             Tem certeza que deseja excluir a tarifa{' '}
             <strong>{tarifaExcluir?.nome}</strong>?
           </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleFecharDialogExcluir}>Cancelar</Button>
-          <Button onClick={handleDelete} color="error" variant="contained">
-            Excluir
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={handleFecharDialogExcluir} disabled={salvando} sx={{ color: '#6C757D' }}>
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleDelete}
+            variant="contained"
+            disabled={salvando}
+            startIcon={salvando && <CircularProgress size={16} sx={{ color: 'white' }} />}
+            sx={{ 
+              backgroundColor: '#DC3545', 
+              '&:hover': { backgroundColor: '#C82333' },
+              '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
+            }}
+          >
+            {salvando ? 'Excluindo...' : 'Excluir'}
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 }
