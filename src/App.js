@@ -10,6 +10,7 @@ import Estacionamentos from './pages/gestor/Estacionamentos';
 import Vagas from './pages/gestor/Vagas';
 import Tarifas from './pages/gestor/Tarifas';
 import Acessos from './pages/gestor/Acessos';
+import ReservasGestor from './pages/gestor/Reservas';
 
 // Páginas do Cliente
 import HomeCliente from './pages/cliente/HomeCliente';
@@ -66,6 +67,14 @@ function App() {
           element={
             <PrivateRoute requiredPerfil="G">
               <Acessos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/gestor/reservas"
+          element={
+            <PrivateRoute requiredPerfil="G">
+              <ReservasGestor />
             </PrivateRoute>
           }
         />

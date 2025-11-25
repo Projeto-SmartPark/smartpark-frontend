@@ -23,15 +23,16 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import { Header, Footer } from '../../components';
-import acessoService from '../../services/acessoService';
+import reservaService from '../../services/reservaService';
 import estacionamentoService from '../../services/estacionamentoService';
 
-export default function AcessosGestor() {
+export default function ReservasGestor() {
   const navigate = useNavigate();
-  const [acessos, setAcessos] = useState([]);
-  const [acessosFiltrados, setAcessosFiltrados] = useState([]);
+  const [reservas, setReservas] = useState([]);
+  const [reservasFiltradas, setReservasFiltradas] = useState([]);
   const [estacionamentos, setEstacionamentos] = useState([]);
   const [estacionamentoSelecionado, setEstacionamentoSelecionado] = useState('');
+  const [statusSelecionado, setStatusSelecionado] = useState('');
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState({ show: false, message: '', severity: 'success' });
   const [page, setPage] = useState(0);
@@ -42,17 +43,17 @@ export default function AcessosGestor() {
   }, []);
 
   useEffect(() => {
-    filtrarAcessos();
-  }, [acessos, estacionamentoSelecionado]);
+    filtrarReservas();
+  }, [reservas, estacionamentoSelecionado, statusSelecionado]);
 
   const carregarDados = async () => {
     try {
       setLoading(true);
-      const [acessosData, estacionamentosData] = await Promise.all([
-        acessoService.getAcessos(),
+      const [reservasData, estacionamentosData] = await Promise.all([
+        reservaService.getReservas(),
         estacionamentoService.getEstacionamentos()
       ]);
-      setAcessos(acessosData);
+      setReservas(reservasData);
       setEstacionamentos(estacionamentosData);
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
@@ -66,16 +67,20 @@ export default function AcessosGestor() {
     }
   };
 
-  const filtrarAcessos = () => {
-    if (!estacionamentoSelecionado) {
-      setAcessosFiltrados(acessos);
-    } else {
-      setAcessosFiltrados(
-        acessos.filter(acesso => 
-          acesso.vaga?.estacionamento?.id_estacionamento === parseInt(estacionamentoSelecionado)
-        )
+  const filtrarReservas = () => {
+    let filtered = [...reservas];
+
+    if (estacionamentoSelecionado) {
+      filtered = filtered.filter(reserva => 
+        reserva.vaga?.estacionamento?.id_estacionamento === parseInt(estacionamentoSelecionado)
       );
     }
+
+    if (statusSelecionado) {
+      filtered = filtered.filter(reserva => reserva.status === statusSelecionado);
+    }
+
+    setReservasFiltradas(filtered);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -95,6 +100,16 @@ export default function AcessosGestor() {
     return hora ? hora.slice(0, 5) : '-';
   };
 
+  const getStatusChip = (status) => {
+    const statusMap = {
+      ativa: { label: 'Ativa', color: 'primary' },
+      concluida: { label: 'Concluída', color: 'success' },
+      cancelada: { label: 'Cancelada', color: 'error' },
+    };
+    const statusInfo = statusMap[status] || { label: status, color: 'default' };
+    return <Chip label={statusInfo.label} color={statusInfo.color} size="small" />;
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
       <Header showLogout />
@@ -110,26 +125,44 @@ export default function AcessosGestor() {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Typography variant="h4" sx={{ fontWeight: 600, color: '#223843' }}>
-            Gerenciar Acessos
+            Gerenciar Reservas
           </Typography>
           
-          <FormControl sx={{ minWidth: 250 }}>
-            <InputLabel>Filtrar por Estacionamento</InputLabel>
-            <Select
-              value={estacionamentoSelecionado}
-              onChange={(e) => setEstacionamentoSelecionado(e.target.value)}
-              label="Filtrar por Estacionamento"
-            >
-              <MenuItem value="">
-                <em>Todos os estacionamentos</em>
-              </MenuItem>
-              {estacionamentos.map((est) => (
-                <MenuItem key={est.id_estacionamento} value={est.id_estacionamento}>
-                  {est.nome}
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel>Filtrar por Estacionamento</InputLabel>
+              <Select
+                value={estacionamentoSelecionado}
+                onChange={(e) => setEstacionamentoSelecionado(e.target.value)}
+                label="Filtrar por Estacionamento"
+              >
+                <MenuItem value="">
+                  <em>Todos</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                {estacionamentos.map((est) => (
+                  <MenuItem key={est.id_estacionamento} value={est.id_estacionamento}>
+                    {est.nome}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ minWidth: 150 }}>
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={statusSelecionado}
+                onChange={(e) => setStatusSelecionado(e.target.value)}
+                label="Status"
+              >
+                <MenuItem value="">
+                  <em>Todos</em>
+                </MenuItem>
+                <MenuItem value="ativa">Ativa</MenuItem>
+                <MenuItem value="concluida">Concluída</MenuItem>
+                <MenuItem value="cancelada">Cancelada</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </Box>
 
         {alert.show && (
@@ -152,49 +185,29 @@ export default function AcessosGestor() {
                   <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Cliente</TableCell>
                   <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Veículo</TableCell>
                   <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Data</TableCell>
-                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Entrada</TableCell>
-                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Saída</TableCell>
-                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Tarifa</TableCell>
-                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Valor Total</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Horário Início</TableCell>
+                  <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Horário Fim</TableCell>
                   <TableCell align="center" sx={{ color: 'white', fontWeight: 600 }}>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {acessosFiltrados.length === 0 ? (
+                {reservasFiltradas.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={10} align="center">
-                      Nenhum acesso registrado
+                    <TableCell colSpan={8} align="center">
+                      Nenhuma reserva encontrada
                     </TableCell>
                   </TableRow>
                 ) : (
-                  acessosFiltrados.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((acesso) => (
-                    <TableRow key={acesso.id_acesso} hover>
-                      <TableCell align="center">{acesso.vaga?.estacionamento?.nome || '-'}</TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 600 }}>{acesso.vaga?.identificacao || '-'}</TableCell>
-                      <TableCell align="center">{acesso.cliente?.nome || '-'}</TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 600 }}>{acesso.veiculo?.placa || '-'}</TableCell>
-                      <TableCell align="center">{formatarData(acesso.data)}</TableCell>
-                      <TableCell align="center">{formatarHora(acesso.hora_inicio)}</TableCell>
-                      <TableCell align="center">{formatarHora(acesso.hora_fim)}</TableCell>
-                      <TableCell align="center">
-                        {acesso.tarifa ? (
-                          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                            R$ {parseFloat(acesso.tarifa.valor || 0).toFixed(2).replace('.', ',')}/{acesso.tarifa.tipo.charAt(0).toUpperCase() + acesso.tarifa.tipo.slice(1)}
-                          </Typography>
-                        ) : (
-                          '-'
-                        )}
-                      </TableCell>
-                      <TableCell align="center" sx={{ color: '#2A9D8F', fontWeight: 600 }}>
-                        R$ {parseFloat(acesso.valor_total || 0).toFixed(2)}
-                      </TableCell>
-                      <TableCell align="center">
-                        {acesso.pago === 'S' ? (
-                          <Chip label="Pago" color="success" size="small" />
-                        ) : (
-                          <Chip label="Pendente" color="warning" size="small" />
-                        )}
-                      </TableCell>
+                  reservasFiltradas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((reserva) => (
+                    <TableRow key={reserva.id_reserva} hover>
+                      <TableCell align="center">{reserva.vaga?.estacionamento?.nome || '-'}</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 600 }}>{reserva.vaga?.identificacao || '-'}</TableCell>
+                      <TableCell align="center">{reserva.cliente?.nome || '-'}</TableCell>
+                      <TableCell align="center" sx={{ fontWeight: 600 }}>{reserva.veiculo?.placa || '-'}</TableCell>
+                      <TableCell align="center">{formatarData(reserva.data)}</TableCell>
+                      <TableCell align="center">{formatarHora(reserva.hora_inicio)}</TableCell>
+                      <TableCell align="center">{formatarHora(reserva.hora_fim)}</TableCell>
+                      <TableCell align="center">{getStatusChip(reserva.status)}</TableCell>
                     </TableRow>
                   ))
                 )}
@@ -203,7 +216,7 @@ export default function AcessosGestor() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={acessosFiltrados.length}
+              count={reservasFiltradas.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
