@@ -85,7 +85,7 @@ export default function LoginPage() {
           />
         </Stack>
 
-        <Box sx={{ textAlign: 'right', mt: 1, mb: 3 }}>
+        {/* <Box sx={{ textAlign: 'right', mt: 1, mb: 3 }}>
           <Link
             component="button"
             type="button"
@@ -96,7 +96,7 @@ export default function LoginPage() {
           >
             Esqueci minha senha
           </Link>
-        </Box>
+        </Box> */}
 
         <Button type="submit" size="large" disabled={loading}>
           {loading ? 'Entrando...' : 'Entrar'}
