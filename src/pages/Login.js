@@ -98,9 +98,11 @@ export default function LoginPage() {
           </Link>
         </Box> */}
 
-        <Button type="submit" size="large" disabled={loading}>
-          {loading ? 'Entrando...' : 'Entrar'}
-        </Button>
+        <Box sx={{ mt: 3 }}>
+          <Button type="submit" size="large" disabled={loading}>
+            {loading ? 'Entrando...' : 'Entrar'}
+          </Button>
+        </Box>
 
         <FormLink
           text="Não tem uma conta?"
