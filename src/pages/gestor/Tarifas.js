@@ -279,6 +279,8 @@ export default function TarifasGestor() {
       <Box component="main" sx={{ flexGrow: 1, py: 4 }}>
         <Box sx={{ maxWidth: 1200, mx: 'auto', px: 3 }}>
           <Button
+            id="btn-voltar"
+            data-testid="btn-voltar"
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate('/gestor/home')}
             sx={{ mb: 3, color: '#223843' }}
@@ -309,6 +311,8 @@ export default function TarifasGestor() {
                 </Select>
               </FormControl>
               <Button
+                id="btn-nova-tarifa"
+                data-testid="btn-nova-tarifa"
                 variant="contained"
                 startIcon={<AddIcon />}
                 onClick={() => handleOpen(null)}
