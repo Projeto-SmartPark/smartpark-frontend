@@ -122,6 +122,8 @@ export default function CadastroPage() {
             onChange={(e) => handleChange('tipoUsuario', e.target.value)}
             options={tipoUsuarioOptions}
             disabled={loading}
+            id="select-tipo-usuario"
+            data-testid="select-tipo-usuario"
           />
 
           <Divider sx={{ my: 1 }} />
@@ -131,6 +133,8 @@ export default function CadastroPage() {
             value={formData.nome}
             onChange={(e) => handleChange('nome', e.target.value)}
             disabled={loading}
+            id="input-nome-cadastro"
+            data-testid="input-nome-cadastro"
           />
 
           <Input
@@ -139,6 +143,8 @@ export default function CadastroPage() {
             value={formData.email}
             onChange={(e) => handleChange('email', e.target.value)}
             disabled={loading}
+            id="input-email-cadastro"
+            data-testid="input-email-cadastro"
           />
 
           <Input
@@ -147,6 +153,8 @@ export default function CadastroPage() {
             value={formData.senha}
             onChange={(e) => handleChange('senha', e.target.value)}
             disabled={loading}
+            id="input-senha-cadastro"
+            data-testid="input-senha-cadastro"
           />
 
           <Input
@@ -155,6 +163,8 @@ export default function CadastroPage() {
             value={formData.confirmarSenha}
             onChange={(e) => handleChange('confirmarSenha', e.target.value)}
             disabled={loading}
+            id="input-confirmar-senha-cadastro"
+            data-testid="input-confirmar-senha-cadastro"
           />
 
           {formData.tipoUsuario === 'gestor' && (
@@ -167,16 +177,30 @@ export default function CadastroPage() {
                 placeholder="00.000.000/0000-00"
                 disabled={loading}
                 inputProps={{ maxLength: 18 }}
+                id="input-cnpj-cadastro"
+                data-testid="input-cnpj-cadastro"
               />
             </>
           )}
         </Stack>
 
-        <Button type="submit" size="large" sx={{ mt: 3 }} disabled={loading}>
+        <Button 
+          type="submit" 
+          size="large" 
+          sx={{ mt: 3 }} 
+          disabled={loading}
+          id="btn-cadastrar"
+          data-testid="btn-cadastrar"
+        >
           {loading ? 'Cadastrando...' : 'Cadastrar'}
         </Button>
 
-        <FormLink text="Já tem uma conta?" linkText="Entrar" onClick={() => navigate('/login')} />
+        <FormLink 
+          text="Já tem uma conta?" 
+          linkText="Entrar" 
+          onClick={() => navigate('/login')}
+          data-testid="link-login"
+        />
       </Box>
     </AuthCard>
   );
