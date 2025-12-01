@@ -88,9 +88,25 @@ export default function AcessosGestor() {
   };
 
   const formatarData = (data) => {
-    // Evita problema de fuso horário ao interpretar data como local
-    const [ano, mes, dia] = data.split('-');
-    return new Date(ano, mes - 1, dia).toLocaleDateString('pt-BR');
+    if (!data) return '-';
+    
+    // Se a data for um objeto com propriedades date ou formatted
+    if (typeof data === 'object' && data.date) {
+      data = data.date;
+    }
+    
+    // Converte para string se necessário
+    const dataStr = String(data);
+    
+    // Extrai apenas a parte da data (YYYY-MM-DD) se vier com timestamp
+    const match = dataStr.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (match) {
+      const [, ano, mes, dia] = match;
+      return new Date(parseInt(ano), parseInt(mes) - 1, parseInt(dia)).toLocaleDateString('pt-BR');
+    }
+    
+    // Fallback
+    return new Date(data).toLocaleDateString('pt-BR');
   };
 
   const formatarHora = (hora) => {

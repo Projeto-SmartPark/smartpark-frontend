@@ -19,6 +19,8 @@ export default function HorarioSelector({ dataReserva, horaInicio, duracao, onDa
           inputProps={{
             min: getDataMinima(),
           }}
+          id="input-data-reserva"
+          data-testid="input-data-reserva"
         />
       </Box>
 
@@ -30,13 +32,21 @@ export default function HorarioSelector({ dataReserva, horaInicio, duracao, onDa
           value={horaInicio}
           onChange={(e) => onHoraChange(e.target.value)}
           InputLabelProps={{ shrink: true }}
+          id="input-hora-inicio-reserva"
+          data-testid="input-hora-inicio-reserva"
         />
       </Box>
 
       <Box sx={{ mb: 2 }}>
         <FormControl fullWidth>
           <InputLabel>Duração Estimada</InputLabel>
-          <Select value={duracao} onChange={(e) => onDuracaoChange(e.target.value)} label="Duração Estimada">
+          <Select 
+            value={duracao} 
+            onChange={(e) => onDuracaoChange(e.target.value)} 
+            label="Duração Estimada"
+            id="select-duracao-reserva"
+            data-testid="select-duracao-reserva"
+          >
             <MenuItem value="0.5">30 minutos</MenuItem>
             <MenuItem value="1">1 hora</MenuItem>
             <MenuItem value="2">2 horas</MenuItem>

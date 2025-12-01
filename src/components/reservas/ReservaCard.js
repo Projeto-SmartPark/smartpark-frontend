@@ -115,6 +115,8 @@ export default function ReservaCard({ reserva, onCancelar, onConcluir }) {
                   },
                 }}
                 onClick={() => onConcluir(reserva.id_reserva)}
+                id={`btn-concluir-reserva-${reserva.id_reserva}`}
+                data-testid={`btn-concluir-reserva-${reserva.id_reserva}`}
               >
                 Concluir
               </Button>
