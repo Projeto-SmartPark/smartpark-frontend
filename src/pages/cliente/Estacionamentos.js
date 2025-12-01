@@ -71,8 +71,8 @@ export default function ListarEstacionamentosCliente() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
-          id="btn-voltar-estacionamentos-cliente"
-          data-testid="btn-voltar-estacionamentos-cliente"
+          id="btn-voltar"
+          data-testid="btn-voltar"
         >
           Voltar
         </Button>

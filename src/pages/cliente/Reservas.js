@@ -105,8 +105,8 @@ export default function Reservas() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
-          id="btn-voltar-reservas-cliente"
-          data-testid="btn-voltar-reservas-cliente"
+          id="btn-voltar"
+          data-testid="btn-voltar"
         >
           Voltar
         </Button>

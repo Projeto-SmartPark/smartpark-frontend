@@ -113,8 +113,8 @@ export default function AcessosCliente() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
-          id="btn-voltar-acessos-cliente"
-          data-testid="btn-voltar-acessos-cliente"
+          id="btn-voltar"
+          data-testid="btn-voltar"
         >
           Voltar
         </Button>
