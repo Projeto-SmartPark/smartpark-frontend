@@ -276,7 +276,13 @@ export default function VeiculosCliente() {
           />
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
-          <Button onClick={handleClose} disabled={salvando} sx={{ color: '#6C757D' }}>
+          <Button 
+            onClick={handleClose} 
+            disabled={salvando} 
+            sx={{ color: '#6C757D' }}
+            id="btn-cancelar-veiculo"
+            data-testid="btn-cancelar-veiculo"
+          >
             Cancelar
           </Button>
           <Button
@@ -304,10 +310,21 @@ export default function VeiculosCliente() {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleFecharDialogExcluir} sx={{ color: '#6C757D' }}>
+          <Button 
+            onClick={handleFecharDialogExcluir} 
+            sx={{ color: '#6C757D' }}
+            id="btn-cancelar-exclusao-veiculo"
+            data-testid="btn-cancelar-exclusao-veiculo"
+          >
             Cancelar
           </Button>
-          <Button onClick={handleDelete} variant="contained" color="error">
+          <Button 
+            onClick={handleDelete} 
+            variant="contained" 
+            color="error"
+            id="btn-confirmar-exclusao-veiculo"
+            data-testid="btn-confirmar-exclusao-veiculo"
+          >
             Excluir
           </Button>
         </DialogActions>
