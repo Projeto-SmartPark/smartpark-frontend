@@ -446,9 +446,22 @@ export default function TarifasGestor() {
               select
               fullWidth
               required
+              data-testid="select-estacionamento-tarifa"
+              SelectProps={{
+                id: 'select-estacionamento-tarifa',
+                'data-testid': 'select-estacionamento-tarifa-input',
+                MenuProps: {
+                  'data-testid': 'menu-estacionamento-tarifa',
+                }
+              }}
             >
               {estacionamentos.map((est) => (
-                <MenuItem key={est.id_estacionamento} value={est.id_estacionamento}>
+                <MenuItem 
+                  key={est.id_estacionamento} 
+                  value={est.id_estacionamento}
+                  data-testid={`opcao-estacionamento-${est.id_estacionamento}`}
+                  data-nome={est.nome}
+                >
                   {est.nome}
                 </MenuItem>
               ))}
