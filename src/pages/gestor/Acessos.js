@@ -88,7 +88,9 @@ export default function AcessosGestor() {
   };
 
   const formatarData = (data) => {
-    return new Date(data).toLocaleDateString('pt-BR');
+    // Evita problema de fuso horário ao interpretar data como local
+    const [ano, mes, dia] = data.split('-');
+    return new Date(ano, mes - 1, dia).toLocaleDateString('pt-BR');
   };
 
   const formatarHora = (hora) => {
