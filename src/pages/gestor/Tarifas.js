@@ -409,6 +409,8 @@ export default function TarifasGestor() {
               onChange={handleChange}
               fullWidth
               required
+              id="input-nome-tarifa"
+              data-testid="input-nome-tarifa"
             />
 
             <TextField
@@ -420,6 +422,8 @@ export default function TarifasGestor() {
               fullWidth
               required
               inputProps={{ min: 0, step: 0.01 }}
+              id="input-valor-tarifa"
+              data-testid="input-valor-tarifa"
             />
 
             <TextField
@@ -430,6 +434,8 @@ export default function TarifasGestor() {
               select
               fullWidth
               required
+              id="select-tipo-tarifa"
+              data-testid="select-tipo-tarifa"
             >
               {tiposTarifa.map((tipo) => (
                 <MenuItem key={tipo.value} value={tipo.value}>
@@ -493,6 +499,8 @@ export default function TarifasGestor() {
               '&:hover': { backgroundColor: '#248277' },
               '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
             }}
+            id="btn-salvar-tarifa"
+            data-testid="btn-salvar-tarifa"
           >
             {salvando ? 'Salvando...' : (editingId ? 'Atualizar' : 'Cadastrar')}
           </Button>

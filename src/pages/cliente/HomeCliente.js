@@ -37,6 +37,8 @@ export default function HomeCliente() {
                 <CardActionArea
                   onClick={() => navigate('/cliente/estacionamentos')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-estacionamentos-cliente"
+                  data-testid="card-estacionamentos-cliente"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <LocalParkingIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
@@ -66,6 +68,8 @@ export default function HomeCliente() {
                 <CardActionArea
                   onClick={() => navigate('/cliente/reservas')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-reservas-cliente"
+                  data-testid="card-reservas-cliente"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <BookmarksIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
@@ -95,6 +99,8 @@ export default function HomeCliente() {
                 <CardActionArea
                   onClick={() => navigate('/cliente/veiculos')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-veiculos-cliente"
+                  data-testid="card-veiculos-cliente"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <DirectionsCarIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
@@ -124,6 +130,8 @@ export default function HomeCliente() {
                 <CardActionArea
                   onClick={() => navigate('/cliente/acessos')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-acessos-cliente"
+                  data-testid="card-acessos-cliente"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <HistoryIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />

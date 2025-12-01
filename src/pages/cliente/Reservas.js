@@ -105,6 +105,8 @@ export default function Reservas() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-reservas-cliente"
+          data-testid="btn-voltar-reservas-cliente"
         >
           Voltar
         </Button>
@@ -153,6 +155,8 @@ export default function Reservas() {
             variant="contained"
             color="error"
             disabled={cancelando}
+            id="btn-confirmar-cancelar-reserva"
+            data-testid="btn-confirmar-cancelar-reserva"
           >
             {cancelando ? <CircularProgress size={24} /> : 'Sim, Cancelar'}
           </Button>
@@ -173,6 +177,8 @@ export default function Reservas() {
             variant="contained"
             sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
             disabled={concluindo}
+            id="btn-confirmar-concluir-reserva"
+            data-testid="btn-confirmar-concluir-reserva"
           >
             {concluindo ? <CircularProgress size={24} /> : 'Sim, Concluir'}
           </Button>

@@ -113,6 +113,8 @@ export default function AcessosCliente() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-acessos-cliente"
+          data-testid="btn-voltar-acessos-cliente"
         >
           Voltar
         </Button>
@@ -193,6 +195,8 @@ export default function AcessosCliente() {
                               backgroundColor: '#2A9D8F',
                               '&:hover': { backgroundColor: '#248277' },
                             }}
+                            id={`btn-pagar-acesso-${acesso.id_acesso}`}
+                            data-testid={`btn-pagar-acesso-${acesso.id_acesso}`}
                           >
                             Pagar
                           </Button>
@@ -260,6 +264,8 @@ export default function AcessosCliente() {
               onClick={handleConfirmarPagamento}
               variant="contained"
               sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
+              id="btn-confirmar-pagamento"
+              data-testid="btn-confirmar-pagamento"
             >
               Confirmar Pagamento
             </Button>

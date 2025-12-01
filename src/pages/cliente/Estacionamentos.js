@@ -71,6 +71,8 @@ export default function ListarEstacionamentosCliente() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-estacionamentos-cliente"
+          data-testid="btn-voltar-estacionamentos-cliente"
         >
           Voltar
         </Button>
@@ -159,6 +161,8 @@ export default function ListarEstacionamentosCliente() {
                         '&:hover': { backgroundColor: '#1a2c35' },
                       }}
                       disabled={est.vagasLivres === 0}
+                      id={`btn-ver-vagas-${est.id_estacionamento}`}
+                      data-testid={`btn-ver-vagas-${est.id_estacionamento}`}
                     >
                       {est.vagasLivres > 0 ? 'Ver Vagas' : 'Sem Vagas'}
                     </Button>

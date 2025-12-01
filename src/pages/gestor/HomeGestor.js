@@ -37,6 +37,8 @@ export default function HomeGestor() {
                 <CardActionArea
                   onClick={() => navigate('/gestor/estacionamentos')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-gerenciar-estacionamentos"
+                  data-testid="card-gerenciar-estacionamentos"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <ManageAccountsIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
@@ -66,6 +68,8 @@ export default function HomeGestor() {
                 <CardActionArea
                   onClick={() => navigate('/gestor/tarifas')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-gerenciar-tarifas"
+                  data-testid="card-gerenciar-tarifas"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <AttachMoneyIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
@@ -95,6 +99,8 @@ export default function HomeGestor() {
                 <CardActionArea
                   onClick={() => navigate('/gestor/acessos')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-gerenciar-acessos"
+                  data-testid="card-gerenciar-acessos"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <HistoryIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />
@@ -124,6 +130,8 @@ export default function HomeGestor() {
                 <CardActionArea
                   onClick={() => navigate('/gestor/reservas')}
                   sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  id="card-gerenciar-reservas"
+                  data-testid="card-gerenciar-reservas"
                 >
                   <CardContent sx={{ textAlign: 'center' }}>
                     <EventNoteIcon sx={{ fontSize: 80, color: '#2A9D8F', mb: 2 }} />

@@ -110,6 +110,8 @@ export default function VagasCliente() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/estacionamentos')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-vagas-cliente"
+          data-testid="btn-voltar-vagas-cliente"
         >
           Voltar
         </Button>
@@ -177,6 +179,8 @@ export default function VagasCliente() {
                       navigate(`/cliente/reservar/${estacionamentoId}/${vaga.id_vaga}`);
                     }
                   }}
+                  id={`card-vaga-${vaga.id_vaga}`}
+                  data-testid={`card-vaga-${vaga.id_vaga}`}
                 >
                   <CardContent
                     sx={{

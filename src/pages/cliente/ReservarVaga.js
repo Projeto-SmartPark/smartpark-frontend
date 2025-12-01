@@ -236,6 +236,8 @@ export default function ReservarVaga() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate(`/cliente/vagas/${estacionamentoId}`)}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-reservar-vaga"
+          data-testid="btn-voltar-reservar-vaga"
         >
           Voltar
         </Button>
@@ -384,6 +386,8 @@ export default function ReservarVaga() {
                 py: 1.5,
                 fontSize: '1.1rem',
               }}
+              id="btn-confirmar-reserva"
+              data-testid="btn-confirmar-reserva"
             >
               {processando ? (
                 <CircularProgress size={24} sx={{ color: 'white' }} />

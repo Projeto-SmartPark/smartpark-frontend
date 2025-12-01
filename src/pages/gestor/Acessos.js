@@ -104,6 +104,8 @@ export default function AcessosGestor() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/gestor/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-acessos"
+          data-testid="btn-voltar-acessos"
         >
           Voltar
         </Button>
@@ -119,6 +121,8 @@ export default function AcessosGestor() {
               value={estacionamentoSelecionado}
               onChange={(e) => setEstacionamentoSelecionado(e.target.value)}
               label="Filtrar por Estacionamento"
+              id="select-filtro-estacionamento-acessos"
+              data-testid="select-filtro-estacionamento-acessos"
             >
               <MenuItem value="">
                 <em>Todos os estacionamentos</em>

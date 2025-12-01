@@ -66,6 +66,8 @@ export default function LoginPage() {
             onChange={(e) => setTipoUsuario(e.target.value)}
             options={tipoUsuarioOptions}
             disabled={loading}
+            id="select-tipo-usuario-login"
+            data-testid="select-tipo-usuario-login"
           />
 
           <Input
@@ -74,6 +76,8 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
+            id="input-email-login"
+            data-testid="input-email-login"
           />
 
           <Input
@@ -82,6 +86,8 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
+            id="input-senha-login"
+            data-testid="input-senha-login"
           />
         </Stack>
 
@@ -99,7 +105,13 @@ export default function LoginPage() {
         </Box> */}
 
         <Box sx={{ mt: 3 }}>
-          <Button type="submit" size="large" disabled={loading}>
+          <Button 
+            type="submit" 
+            size="large" 
+            disabled={loading}
+            id="btn-entrar"
+            data-testid="btn-entrar"
+          >
             {loading ? 'Entrando...' : 'Entrar'}
           </Button>
         </Box>
@@ -108,6 +120,7 @@ export default function LoginPage() {
           text="Não tem uma conta?"
           linkText="Cadastre-se"
           onClick={() => navigate('/cadastro')}
+          data-testid="link-cadastro"
         />
       </Box>
     </AuthCard>

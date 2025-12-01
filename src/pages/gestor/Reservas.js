@@ -119,6 +119,8 @@ export default function ReservasGestor() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/gestor/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-reservas"
+          data-testid="btn-voltar-reservas"
         >
           Voltar
         </Button>
@@ -135,6 +137,8 @@ export default function ReservasGestor() {
                 value={estacionamentoSelecionado}
                 onChange={(e) => setEstacionamentoSelecionado(e.target.value)}
                 label="Filtrar por Estacionamento"
+                id="select-filtro-estacionamento-reservas"
+                data-testid="select-filtro-estacionamento-reservas"
               >
                 <MenuItem value="">
                   <em>Todos</em>
@@ -153,6 +157,8 @@ export default function ReservasGestor() {
                 value={statusSelecionado}
                 onChange={(e) => setStatusSelecionado(e.target.value)}
                 label="Status"
+                id="select-filtro-status-reservas"
+                data-testid="select-filtro-status-reservas"
               >
                 <MenuItem value="">
                   <em>Todos</em>

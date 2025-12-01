@@ -303,6 +303,8 @@ export default function ListarEstacionamentos() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/gestor/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar"
+          data-testid="btn-voltar"
         >
           Voltar
         </Button>
@@ -316,6 +318,8 @@ export default function ListarEstacionamentos() {
             startIcon={<AddIcon />}
             onClick={() => handleOpenDialog()}
             sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
+            id="btn-novo-estacionamento"
+            data-testid="btn-novo-estacionamento"
           >
             Novo Estacionamento
           </Button>
@@ -425,6 +429,8 @@ export default function ListarEstacionamentos() {
                   placeholder="Ex: Estacionamento Centro"
                   error={errors.nome}
                   helperText={errors.nome && "Campo obrigatório"}
+                  id="input-nome-estacionamento"
+                  data-testid="input-nome-estacionamento"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -438,6 +444,8 @@ export default function ListarEstacionamentos() {
                   inputProps={{ min: 1 }}
                   error={errors.capacidade}
                   helperText={errors.capacidade && "Campo obrigatório"}
+                  id="input-capacidade-estacionamento"
+                  data-testid="input-capacidade-estacionamento"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -450,6 +458,8 @@ export default function ListarEstacionamentos() {
                   InputLabelProps={{ shrink: true }}
                   error={errors.hora_abertura}
                   helperText={errors.hora_abertura && "Campo obrigatório"}
+                  id="input-hora-abertura"
+                  data-testid="input-hora-abertura"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -462,6 +472,8 @@ export default function ListarEstacionamentos() {
                   InputLabelProps={{ shrink: true }}
                   error={errors.hora_fechamento}
                   helperText={errors.hora_fechamento && "Campo obrigatório"}
+                  id="input-hora-fechamento"
+                  data-testid="input-hora-fechamento"
                 />
               </Grid>
             </Grid>
@@ -490,6 +502,8 @@ export default function ListarEstacionamentos() {
                   placeholder="00000-000"
                   error={errors.cep}
                   helperText={errors.cep && "Campo obrigatório"}
+                  id="input-cep"
+                  data-testid="input-cep"
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -502,6 +516,8 @@ export default function ListarEstacionamentos() {
                   placeholder="SP"
                   error={errors.estado}
                   helperText={errors.estado && "Campo obrigatório"}
+                  id="input-estado"
+                  data-testid="input-estado"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -513,6 +529,8 @@ export default function ListarEstacionamentos() {
                   placeholder="Ex: São Paulo"
                   error={errors.cidade}
                   helperText={errors.cidade && "Campo obrigatório"}
+                  id="input-cidade"
+                  data-testid="input-cidade"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -524,6 +542,8 @@ export default function ListarEstacionamentos() {
                   placeholder="Ex: Centro"
                   error={errors.bairro}
                   helperText={errors.bairro && "Campo obrigatório"}
+                  id="input-bairro"
+                  data-testid="input-bairro"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -535,6 +555,8 @@ export default function ListarEstacionamentos() {
                   placeholder="Ex: Rua das Flores"
                   error={errors.logradouro}
                   helperText={errors.logradouro && "Campo obrigatório"}
+                  id="input-logradouro"
+                  data-testid="input-logradouro"
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -546,6 +568,8 @@ export default function ListarEstacionamentos() {
                   placeholder="Ex: 123"
                   error={errors.numero}
                   helperText={errors.numero && "Campo obrigatório"}
+                  id="input-numero"
+                  data-testid="input-numero"
                 />
               </Grid>
               <Grid item xs={12} md={9}>
@@ -554,7 +578,9 @@ export default function ListarEstacionamentos() {
                   label="Complemento"
                   value={formData.complemento}
                   onChange={(e) => setFormData({ ...formData, complemento: e.target.value })}
-                  placeholder="Ex: Sala 10 (opcional)"
+                  placeholder="Ex: Sala 10"
+                  id="input-complemento"
+                  data-testid="input-complemento"
                 />
               </Grid>
             </Grid>
@@ -627,6 +653,8 @@ export default function ListarEstacionamentos() {
                   onChange={(e) => setNovoTelefone({ ...novoTelefone, ddd: e.target.value.replace(/\D/g, '') })}
                   inputProps={{ maxLength: 2 }}
                   placeholder="11"
+                  id="input-ddd"
+                  data-testid="input-ddd"
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -639,6 +667,8 @@ export default function ListarEstacionamentos() {
                   }
                   inputProps={{ maxLength: 10 }}
                   placeholder="00000-0000"
+                  id="input-numero-telefone"
+                  data-testid="input-numero-telefone"
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -655,6 +685,8 @@ export default function ListarEstacionamentos() {
                     '&:hover': { borderColor: '#248277', backgroundColor: 'rgba(42, 157, 143, 0.1)' },
                     '&:disabled': { borderColor: '#CCC', color: '#999' }
                   }}
+                  id="btn-adicionar-telefone"
+                  data-testid="btn-adicionar-telefone"
                 >
                   ADICIONAR
                 </Button>
@@ -685,6 +717,8 @@ export default function ListarEstacionamentos() {
                 '&:hover': { backgroundColor: '#248277' },
                 '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
               }}
+              id="btn-salvar-estacionamento"
+              data-testid="btn-salvar-estacionamento"
             >
               {salvando ? 'Salvando...' : (editingId ? 'Atualizar' : 'Salvar')}
             </Button>

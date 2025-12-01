@@ -215,6 +215,8 @@ export default function GerenciarVagas() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/gestor/estacionamentos')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-vagas"
+          data-testid="btn-voltar-vagas"
         >
           Voltar
         </Button>
@@ -235,6 +237,8 @@ export default function GerenciarVagas() {
             startIcon={<AddIcon />}
             onClick={() => handleOpenDialog()}
             sx={{ backgroundColor: '#2A9D8F', '&:hover': { backgroundColor: '#248277' } }}
+            id="btn-nova-vaga"
+            data-testid="btn-nova-vaga"
           >
             Nova Vaga
           </Button>
@@ -326,6 +330,8 @@ export default function GerenciarVagas() {
               sx={{ mb: 3 }}
               placeholder="Ex: A-01, B-15"
               required
+              id="input-identificacao-vaga"
+              data-testid="input-identificacao-vaga"
             />
             <FormControl fullWidth sx={{ mb: 3 }}>
               <InputLabel id="tipo-label">Tipo da Vaga</InputLabel>
@@ -335,6 +341,8 @@ export default function GerenciarVagas() {
                 label="Tipo da Vaga"
                 onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}
                 required
+                id="select-tipo-vaga"
+                data-testid="select-tipo-vaga"
               >
                 {tiposVaga.map((tipo) => (
                   <MenuItem key={tipo.value} value={tipo.value}>
@@ -375,6 +383,8 @@ export default function GerenciarVagas() {
                 '&:hover': { backgroundColor: '#248277' },
                 '&.Mui-disabled': { backgroundColor: '#CCCCCC' }
               }}
+              id="btn-salvar-vaga"
+              data-testid="btn-salvar-vaga"
             >
               {salvando ? 'Salvando...' : (editingId ? 'Atualizar' : 'Salvar')}
             </Button>

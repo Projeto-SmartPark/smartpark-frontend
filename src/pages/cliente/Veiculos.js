@@ -180,6 +180,8 @@ export default function VeiculosCliente() {
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate('/cliente/home')}
           sx={{ mb: 3, color: '#223843' }}
+          id="btn-voltar-veiculos"
+          data-testid="btn-voltar-veiculos"
         >
           Voltar
         </Button>
@@ -202,6 +204,8 @@ export default function VeiculosCliente() {
               backgroundColor: '#2A9D8F',
               '&:hover': { backgroundColor: '#248277' },
             }}
+            id="btn-adicionar-veiculo"
+            data-testid="btn-adicionar-veiculo"
           >
             Adicionar Veículo
           </Button>
@@ -267,6 +271,8 @@ export default function VeiculosCliente() {
             placeholder="ABC-1234"
             inputProps={{ maxLength: 8 }}
             sx={{ mt: 1 }}
+            id="input-placa-veiculo"
+            data-testid="input-placa-veiculo"
           />
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
@@ -281,6 +287,8 @@ export default function VeiculosCliente() {
               backgroundColor: '#2A9D8F',
               '&:hover': { backgroundColor: '#248277' },
             }}
+            id="btn-salvar-veiculo"
+            data-testid="btn-salvar-veiculo"
           >
             {salvando ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Salvar'}
           </Button>
