@@ -120,6 +120,7 @@ export default function LoginPage() {
           text="Não tem uma conta?"
           linkText="Cadastre-se"
           onClick={() => navigate('/cadastro')}
+          id="link-cadastro"
           data-testid="link-cadastro"
         />
       </Box>

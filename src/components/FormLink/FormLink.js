@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Link } from '@mui/material';
 
-function FormLink({ text, linkText, onClick }) {
+function FormLink({ text, linkText, onClick, ...props }) {
   return (
     <Box sx={{ textAlign: 'center', mt: 3 }}>
       <Typography variant="body2" sx={{ color: '#6C757D' }}>
@@ -12,6 +12,7 @@ function FormLink({ text, linkText, onClick }) {
           underline="hover"
           sx={{ color: '#2A9D8F', fontWeight: 600 }}
           onClick={onClick}
+          {...props}
         >
           {linkText}
         </Link>

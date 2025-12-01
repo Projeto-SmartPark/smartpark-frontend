@@ -199,6 +199,7 @@ export default function CadastroPage() {
           text="Já tem uma conta?" 
           linkText="Entrar" 
           onClick={() => navigate('/login')}
+          id="link-login"
           data-testid="link-login"
         />
       </Box>
