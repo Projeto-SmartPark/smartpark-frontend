@@ -31,6 +31,8 @@ export default function Header({ showLogout = false }) {
               '&.Mui-disabled': { backgroundColor: '#999999' },
             }}
             title="Sair"
+            id="btn-logout"
+            data-testid="btn-logout"
           >
             {saindo ? <CircularProgress size={24} sx={{ color: 'white' }} /> : <LogoutIcon />}
           </IconButton>
