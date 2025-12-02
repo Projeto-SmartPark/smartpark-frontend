@@ -702,6 +702,8 @@ export default function ListarEstacionamentos() {
                 fontWeight: 600,
                 px: 3
               }}
+              id="btn-cancelar-estacionamento"
+              data-testid="btn-cancelar-estacionamento"
             >
               Cancelar
             </Button>
